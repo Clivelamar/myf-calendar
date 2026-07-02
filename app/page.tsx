@@ -1,7 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import { Program } from '@/types'
 import ProgramCard from '@/components/ProgramCard'
-import SubscribeModal from '@/components/SubscribeModal'
 import HomeHeader from '@/components/HomeHeader'
 
 async function getPrograms(): Promise<{ program: Program; eventCount: number }[]> {
