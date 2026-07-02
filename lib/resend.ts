@@ -51,7 +51,7 @@ export async function sendEventReminderEmail(
   const daysText = daysUntil === 1 ? 'TOMORROW' : `in ${daysUntil} days`
 
   return resend.emails.send({
-    from: 'Good Shepherd MYF <noreply@goodshepherdmyf.org>',
+    from: 'Good Shepherd MYF <onboarding@resend.dev>',
     to,
     subject: `Reminder: ${eventTitle} – ${daysText}`,
     html: `

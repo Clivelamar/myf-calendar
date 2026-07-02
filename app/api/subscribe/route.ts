@@ -54,16 +54,12 @@ export async function POST(request: NextRequest) {
       await supabase.from('subscriber_programs').insert(programLinks)
     }
 
-    // Send welcome email (SMS disabled for now)
-    const [emailResult] = await Promise.allSettled([
+    // Send welcome email (SMS disabled until AfricasTalking is configured)
+    await Promise.allSettled([
       sendWelcomeEmail(email, name),
     ])
 
-    const emailStatus = emailResult.status === 'fulfilled'
-      ? { sent: true, data: emailResult.value }
-      : { sent: false, error: String(emailResult.reason) }
-
-    return Response.json({ success: true, email: emailStatus })
+    return Response.json({ success: true })
   } catch (err: unknown) {
     console.error('Subscribe error:', err)
     return Response.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
