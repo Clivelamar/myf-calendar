@@ -5,7 +5,7 @@ import { sendWelcomeSMS } from '@/lib/africastalking'
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone } = await request.json()
+    const { name, email, phone, programSlugs } = await request.json()
 
     if (!name || !email || !phone) {
       return Response.json({ error: 'Name, email, and phone are required.' }, { status: 400 })
@@ -28,13 +28,33 @@ export async function POST(request: NextRequest) {
     }
 
     // Save subscriber
-    const { error: insertError } = await supabase
+    const { data: newSubscriber, error: insertError } = await supabase
       .from('subscribers')
       .insert({ name: name.trim(), email: email.trim().toLowerCase(), phone: phone.trim() })
+      .select('id')
+      .single()
 
-    if (insertError) throw insertError
+    if (insertError || !newSubscriber) throw insertError
 
-    // Send welcome email and SMS in parallel (don't fail the request if these fail)
+    // Save program preferences — look up IDs by slug
+    const slugs: string[] = Array.isArray(programSlugs) && programSlugs.length > 0
+      ? programSlugs
+      : ['myf', 'brigade', 'church-calendar'] // default: all programs
+
+    const { data: programs } = await supabase
+      .from('programs')
+      .select('id')
+      .in('slug', slugs)
+
+    if (programs && programs.length > 0) {
+      const programLinks = programs.map((p: { id: string }) => ({
+        subscriber_id: newSubscriber.id,
+        program_id: p.id,
+      }))
+      await supabase.from('subscriber_programs').insert(programLinks)
+    }
+
+    // Send welcome email and SMS in parallel
     await Promise.allSettled([
       sendWelcomeEmail(email, name),
       sendWelcomeSMS(phone, name),
