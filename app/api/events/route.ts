@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { createServiceClient } from '@/lib/supabase'
+import { supabase, createServiceClient } from '@/lib/supabase'
 import { EVENTS_SEED } from '@/lib/events-data'
 import { BRIGADE_SENIOR_SEED } from '@/lib/brigade-senior-data'
 import { BRIGADE_JUNIOR_SEED } from '@/lib/brigade-junior-data'
@@ -13,26 +13,30 @@ const SEED_MAP: Record<string, typeof EVENTS_SEED> = {
 }
 
 // GET /api/events?program=myf  — returns events for a program (or all if no param)
+// Uses the public anon client since events are publicly readable via RLS
 export async function GET(request: NextRequest) {
-  const supabase = createServiceClient()
-  const programSlug = request.nextUrl.searchParams.get('program')
+  try {
+    const programSlug = request.nextUrl.searchParams.get('program')
 
-  let query = supabase.from('events').select('*').order('date', { ascending: true })
+    let query = supabase.from('events').select('*').order('date', { ascending: true })
 
-  if (programSlug) {
-    const { data: program } = await supabase
-      .from('programs')
-      .select('id')
-      .eq('slug', programSlug)
-      .single()
+    if (programSlug) {
+      const { data: program } = await supabase
+        .from('programs')
+        .select('id')
+        .eq('slug', programSlug)
+        .single()
 
-    if (!program) return Response.json({ error: 'Program not found' }, { status: 404 })
-    query = query.eq('program_id', program.id)
+      if (!program) return Response.json({ error: 'Program not found' }, { status: 404 })
+      query = query.eq('program_id', program.id)
+    }
+
+    const { data, error } = await query
+    if (error) return Response.json({ error: error.message }, { status: 500 })
+    return Response.json(data)
+  } catch (err: unknown) {
+    return Response.json({ error: String(err) }, { status: 500 })
   }
-
-  const { data, error } = await query
-  if (error) return Response.json({ error: error.message }, { status: 500 })
-  return Response.json(data)
 }
 
 // POST /api/events  body: { program: 'myf' | 'brigade-senior' | 'brigade-junior' | 'church-calendar' }
