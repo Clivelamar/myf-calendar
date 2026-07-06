@@ -4,12 +4,14 @@ import { EVENTS_SEED } from '@/lib/events-data'
 import { BRIGADE_SENIOR_SEED } from '@/lib/brigade-senior-data'
 import { BRIGADE_JUNIOR_SEED } from '@/lib/brigade-junior-data'
 import { CHURCH_CALENDAR_SEED } from '@/lib/church-calendar-data'
+import { MGF_SEED } from '@/lib/mgf-data'
 
 const SEED_MAP: Record<string, typeof EVENTS_SEED> = {
   myf: EVENTS_SEED,
   'brigade-senior': BRIGADE_SENIOR_SEED,
   'brigade-junior': BRIGADE_JUNIOR_SEED,
   'church-calendar': CHURCH_CALENDAR_SEED,
+  mgf: MGF_SEED,
 }
 
 // GET /api/events?program=myf  — returns events for a program (or all if no param)

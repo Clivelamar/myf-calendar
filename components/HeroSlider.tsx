@@ -44,6 +44,17 @@ const SLIDES = [
   },
   {
     // image: '/images/hero-4.jpg',
+    gradient: 'linear-gradient(145deg, #4a0022 0%, #be185d 55%, #db2777 100%)',
+    overlay: 'rgba(74,0,34,0.75)',
+    badge: "Methodist Girls' Fellowship",
+    title: 'Growing Women in Faith & Service',
+    subtitle: '53 Events in 2026',
+    note: 'Visitations · Leadership Summit · Mentorship · Community Service',
+    cta: 'View MGF Calendar',
+    href: '/mgf',
+  },
+  {
+    // image: '/images/hero-5.jpg',
     gradient: 'linear-gradient(145deg, #3d0010 0%, #8B0000 55%, #C41230 100%)',
     overlay: 'rgba(61,0,16,0.75)',
     badge: 'Stay Connected',

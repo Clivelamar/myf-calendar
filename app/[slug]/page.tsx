@@ -9,6 +9,7 @@ import { CalendarDays } from 'lucide-react'
 const PROGRAM_THEMES: Record<string, string> = {
   myf: 'Walking In The Word: Equipped For Every Good Work.',
   brigade: 'Growing Into Christian Maturity.',
+  mgf: 'Growing Young Women in Faith, Service and Christian Leadership.',
   'church-calendar': 'Walking In The Word: Equipped For Every Good Work. – 2 Timothy 3:16-17',
 }
 

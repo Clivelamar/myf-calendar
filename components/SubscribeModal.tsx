@@ -12,6 +12,7 @@ interface Props {
 const ALL_PROGRAMS = [
   { slug: 'myf', label: 'Methodist Youth Fellowship (MYF)', color: '#003580' },
   { slug: 'brigade', label: "Boys' & Girls' Brigade", color: '#1a7a4a' },
+  { slug: 'mgf', label: "Methodist Girls' Fellowship (MGF)", color: '#be185d' },
   { slug: 'church-calendar', label: 'Good Shepherd Society (All Events)', color: '#6b21a8' },
 ]
 
