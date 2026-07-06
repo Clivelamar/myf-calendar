@@ -3,6 +3,7 @@ import { Program } from '@/types'
 import ProgramCard from '@/components/ProgramCard'
 import HomeHeader from '@/components/HomeHeader'
 import HeroSlider from '@/components/HeroSlider'
+import TodayHighlights from '@/components/TodayHighlights'
 
 async function getPrograms(): Promise<{ program: Program; eventCount: number }[]> {
   const { data: programs } = await supabase
@@ -32,6 +33,7 @@ export default async function Home() {
     <div className="min-h-screen">
       <HomeHeader />
       <HeroSlider />
+      <TodayHighlights />
 
       <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="mb-8">
