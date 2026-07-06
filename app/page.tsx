@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { supabase } from '@/lib/supabase'
 import { Program } from '@/types'
 import ProgramCard from '@/components/ProgramCard'
